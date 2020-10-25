@@ -10,13 +10,17 @@ class MoviesController < ApplicationController
 #     @movies = Movie.all
     @all_ratings = Movie.all_ratings
     
-    checked = []
+    @ratings_to_show = []
     if params[:ratings]
-      checked = params[:ratings].keys
+      @ratings_to_show = params[:ratings].keys
     end 
     
-    @ratings_to_show = checked
-    @movies = Movie.with_ratings(checked)
+    @sorted_by = nil
+    if params[:sort_by]
+      @sorted_by = params[:sort_by]
+    end 
+    
+    @movies = Movie.with_ratings(@ratings_to_show, @sorted_by)
   end
 
   def new
